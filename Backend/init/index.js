@@ -4,6 +4,7 @@ import Flight from "../models/flights.js";
 import User from '../models/users.js';
 
 const MONGO_URL = "mongodb://127.0.0.1:27017/Real-Time-Flight-Booking-App"
+// const MONGO_URL = "<YOUR atlas MONGO URL FROM ENV>";
 
 async function main(){
     await mongoose.connect(MONGO_URL)

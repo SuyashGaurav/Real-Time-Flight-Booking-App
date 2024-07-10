@@ -30,14 +30,19 @@ const FilterNav = ({ handleFrom, handleTo, handleDate }) => {
     "Istanbul",
     "Moscow",
   ];
+  const today = new Date().toISOString().split("T")[0];
+
   return (
     <div
-      className="search-bar sticky-top"
+      className="search-bar"
       style={{
         backgroundColor: "#95D2B3",
         padding: "10px 0",
         height: "auto",
         borderRadius: "15px",
+        position: "sticky",
+        top: 73,
+        zIndex: 1000
       }}
     >
       <div className="container-fluid">
@@ -86,7 +91,7 @@ const FilterNav = ({ handleFrom, handleTo, handleDate }) => {
               type="date"
               className="form-control"
               id="departure-date"
-              min={new Date().toISOString().split("T")[0]}
+              min={today}
               onChange={(e) => handleDate(e.target.value)}
             />
           </div>

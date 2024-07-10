@@ -1,17 +1,10 @@
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { Link } from 'react-router-dom';
-import { useEffect } from "react";
+import { Link } from "react-router-dom";
+import "../App.css"
 
-const Login = ({setIsLoggedIn}) => {
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (token) {
-      setIsLoggedIn(false);
-      localStorage.removeItem("token")
-    }
-  }, []);
+const Login = ({ handleLogIn }) => {
   const {
     register,
     handleSubmit,
@@ -26,13 +19,11 @@ const Login = ({setIsLoggedIn}) => {
       if (response.data === "notFound") {
         alert("User Does Not Exists!!\nRegister First.");
         navigate("/signup");
-      } 
-      else if (response.data.status === "success") {
-        localStorage.setItem('token', response.data.token);
-        setIsLoggedIn(true)
+      } else if (response.data.status === "success") {
+        localStorage.setItem("token", response.data.token);
+        handleLogIn();
         navigate("/");
-      } 
-      else if (response.data === "invalidPassword") {
+      } else if (response.data === "invalidPassword") {
         alert("Incorrect Password!!");
         navigate("/login");
       } else {
@@ -89,6 +80,9 @@ const Login = ({setIsLoggedIn}) => {
           Submit
         </button>
       </form>
+      <button className="login-with-google-btn">
+        Sign In With Google
+      </button>
       <div className="mt-5">
         <Link to="/signup">Create a new account?</Link>
       </div>

@@ -4,11 +4,17 @@ import Flight from "./models/flights.js";
 import mongoose from "mongoose";
 import cors from "cors";
 import jwt from "jsonwebtoken";
+import dotenv from 'dotenv';
+dotenv.config();
+
 import { authenticateToken } from "./middleware.js";
 
-const JWT_SECRET = "a1b2c3d4";
+const JWT_SECRET = process.env.JWT_SECRET;
+const clientId = "767176881409-9md2vuj4k06oaqm9g6g1vtptrvi5pfpu.apps.googleusercontent.com";
+const clientSecret = "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";
 
-const MONGO_URL = "mongodb://127.0.0.1:27017/Real-Time-Flight-Booking-App";
+// const MONGO_URL = "mongodb://127.0.0.1:27017/Real-Time-Flight-Booking-App";
+const MONGO_URL = process.env.MONGO_URL;
 async function main() {
   await mongoose.connect(MONGO_URL);
 }
@@ -36,7 +42,7 @@ app.get("/", (req, res) => {
 // Routing
 app.post("/login", (req, res) => {
   let { email: inputEmail, password: inputPassword } = req.body;
-  console.log(inputEmail, inputPassword);
+  // console.log(inputEmail, inputPassword);
   // check frontend
   User.findOne({ email: inputEmail })
     .then((user) => {

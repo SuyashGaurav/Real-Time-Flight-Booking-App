@@ -3,13 +3,17 @@ import { useState, useEffect } from "react";
 import FlightSummary from "./FlightSummary";
 import PassengerDetails from "./PasssengerDetails";
 import { useNavigate } from "react-router-dom";
+import Loader from "../../Loader/Loader";
 import axios from "axios";
 
 const Bookflight = () => {
   let { id } = useParams();
   const [details, setDetails] = useState([]);
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
+
   useEffect(() => {
+    setLoading(true);
     const fetchFlightsDetails = async () => {
       try {
         const response = await axios.get(
@@ -20,13 +24,15 @@ const Bookflight = () => {
       } catch (error) {
         console.error("Error fetching flights:", error);
         navigate("/error")
+      } finally {
+        setLoading(false);
       }
     };
     fetchFlightsDetails();
   }, [id]);
 
-  if (!details) {
-    return <div>Loading...</div>;
+  if (loading) {
+    return <Loader />;
   }
   return (
     <>

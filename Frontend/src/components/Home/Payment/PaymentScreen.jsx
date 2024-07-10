@@ -3,6 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import Error from "../../Error/Error";
 import { useForm } from "react-hook-form";
+import Loader from "../../Loader/Loader";
 
 const PaymentScreen = () => {
   const [paymentMethod, setPaymentMethod] = useState("PayPal");
@@ -12,12 +13,14 @@ const PaymentScreen = () => {
   const [timeLeft, setTimeLeft] = useState(120); // 2 minutes countdown
   let { id, seat } = useParams();
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
 
   const handlePaymentChange = (e) => {
     setPaymentMethod(e.target.value);
   };
 
   const fetchFlightsDetails = async () => {
+    setLoading(true)
     try {
       const response = await axios.get(
         `http://localhost:3000/api/flights/${id}`
@@ -28,6 +31,8 @@ const PaymentScreen = () => {
       console.error("Error fetching flights:", error);
       navigate("/error");
       return null;
+    } finally {
+      setLoading(false);
     }
   };
   const unlockSeat = async () => {
@@ -61,8 +66,9 @@ const PaymentScreen = () => {
   }, [isPaymentProcessing, timeLeft, navigate, id]);
   
   const onPayment = async (data) => {
+    setLoading(true);
     const res = await fetchFlightsDetails();
-    console.log(res);
+    // console.log(res);
     if (res.seats && res.seats[seat] === 1) {
       alert("This seat has already been booked.");
       navigate(`/flight/${id}`);
@@ -85,9 +91,11 @@ const PaymentScreen = () => {
     };
     await lockSeat();
     setIsPaymentProcessing(true);
+    setLoading(false)
   };
 
   const confirmPayment = async () => {
+    setLoading(true)
     const seatBooked = async () => {
       try {
         await axios.patch(`http://localhost:3000/api/flights/${id}/seat-book`, {
@@ -101,17 +109,24 @@ const PaymentScreen = () => {
     await seatBooked();
     await unlockSeat();
     alert("Payment confirmed!");
+    setLoading(false);
     navigate(`/flight/${id}`);
   };
 
   const cancelPayment = async () => {
+    setLoading(true)
     await unlockSeat();
+    setLoading(false)
     navigate(`/flight/${id}`);
   };
 
   if (details.seats && details.seats[seat]) {
-    alert("This seat has already been booked.");
+    // alert("This seat has already been booked.");
     return <Error />;
+  }
+
+  if(loading){
+    return <Loader />
   }
 
   return (

@@ -1,0 +1,40 @@
+.loader-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 70vh;
+  background-color: #f1f8e8; /* Optional: for a light overlay effect */
+}
+
+.lds-airplane {
+  position: relative;
+  display: inline-block;
+  width: 100px;
+  height: 30px;
+  overflow: hidden;
+}
+
+.lds-airplane i {
+  font-size: 2rem;
+  color: #00acfb;
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+  animation: airplane-move 1.5s ease-in-out infinite;
+}
+
+@keyframes airplane-move {
+  0% {
+    left: 0;
+    transform: translateY(-50%) rotate(0deg);
+  }
+  50% {
+    left: calc(100% - 2rem); /* Adjusting for icon size */
+    transform: translateY(-50%) rotate(0deg);
+  }
+  100% {
+    left: 0;
+    transform: translateY(-50%) rotate(0deg);
+  }
+}

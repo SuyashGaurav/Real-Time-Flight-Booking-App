@@ -1,16 +1,18 @@
-import Navbar from "../Navbar";
 import FilterNav from "../FilterNav";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import Flight from "./Flight";
+import Loader from "../Loader/Loader";
 
 const Home = () => {
   const [flights, setFlights] = useState([]);
   const [from, setFrom] = useState("");
   const [to, setTo] = useState("");
   const [date, setDate] = useState("");
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
+    setLoading(true);
     const fetchFlights = async () => {
       try {
         const response = await axios.get("http://localhost:3000/api/flights");
@@ -27,22 +29,30 @@ const Home = () => {
         setFlights(filteredFlights);
       } catch (error) {
         console.error("Error fetching flights:", error);
+      } finally {
+        setLoading(false);
       }
     };
     fetchFlights();
   }, [from, to, date]);
   return (
     <>
-      <FilterNav  handleFrom={setFrom} handleTo={setTo} handleDate={setDate} />
-      {flights.length ? (
-        <div>
-          <h4 className="mt-4">Available Flights</h4>
-          {flights.map((flight) => (
-            <Flight key={flight._id} flight={flight} />
-          ))}
-        </div>
+      <FilterNav handleFrom={setFrom} handleTo={setTo} handleDate={setDate} />
+      {loading ? (
+        <Loader />
       ) : (
-        <h4 className="mt-4">No Available Flights</h4>
+        <div>
+          {flights.length ? (
+            <div>
+              <h4 className="mt-4">Available Flights</h4>
+              {flights.map((flight) => (
+                <Flight key={flight._id} flight={flight} />
+              ))}
+            </div>
+          ) : (
+            <h4 className="mt-4">No Available Flights</h4>
+          )}
+        </div>
       )}
     </>
   );

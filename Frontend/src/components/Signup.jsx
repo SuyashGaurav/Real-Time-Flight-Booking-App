@@ -4,14 +4,14 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 
-const Signup = ({setIsLoggedIn}) => {
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (token) {
-      setIsLoggedIn(false);
-      localStorage.removeItem("token")
-    }
-  }, []);
+const Signup = ({handleLogIn}) => {
+  // useEffect(() => {
+  //   const token = localStorage.getItem("token");
+  //   if (token) {
+  //     setIsLoggedIn(false);
+  //     localStorage.removeItem("token")
+  //   }
+  // }, []);
   const {
     register,
     handleSubmit,
@@ -24,7 +24,7 @@ const Signup = ({setIsLoggedIn}) => {
       const response = await axios.post("http://localhost:3000/register", data);
       if (response.data.status === "success") {
         localStorage.setItem('token', response.data.token);
-        setIsLoggedIn(true)
+        handleLogIn()
         navigate("/");
         return;
       } else if (response.data === "exists") {
