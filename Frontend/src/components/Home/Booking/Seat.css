@@ -1,0 +1,44 @@
+.seat-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+  }
+  
+  .seat-label {
+    position: relative;
+    display: inline-block;
+  }
+  
+  .seat-input {
+    opacity: 0;
+    position: absolute;
+  }
+  
+  .seat {
+    width: 40px;  /* Adjust size as needed */
+    height: 40px;
+    display: inline-block;
+    border-radius: 8px; /* Rounded corners for better UX */
+    border: 2px solid transparent;
+    transition: border-color 0.3s;
+  }
+  
+  .seat-available {
+    background-color: #28a745; /* Green for available */
+  }
+  
+  .seat-unavailable {
+    background-color: #dc3545; /* Red for unavailable */
+  }
+  
+  .seat-input:checked + .seat {
+    border-color: #000; /* Black border when selected */
+    background-color: antiquewhite;
+  }
+  
+  .seat-input:disabled + .seat {
+    cursor: not-allowed;
+    opacity: 0.6;
+  }
+  

@@ -1,0 +1,89 @@
+/* src/components/Flight.css */
+.flight-card {
+  position: relative;
+  background-color: #D6EFD8;
+  padding: 20px;
+  margin: 20px;
+  transition: transform 0.3s, box-shadow 0.3s;
+  max-width: auto;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border-radius: 5px;
+  cursor: pointer;
+  clip-path: polygon(0% 0%, 100% 0%, 100% 50%, 90% 55%, 100% 60%, 100% 100%, 0% 100%);
+}
+
+.flight-card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+.flight-card:before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  right: -20px;
+  width: 20px;
+  height: 10px;
+  background-color: #D6EFD8;
+  transform: translateY(-50%);
+  clip-path: polygon(0% 0%, 100% 50%, 0% 100%);
+}
+
+.flight-name {
+  text-align: center;
+  margin-bottom: 7px;
+  font-size: 1.5em;
+  color: #2c3e50;
+}
+
+.flight-route {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+  position: relative;
+  font-size: large;
+  font-weight: 500;
+}
+
+.flight-route span {
+  flex: 1;
+  text-align: center;
+}
+
+.flight-route-line {
+  border: none;
+  border-top: 2px dotted #34495e;
+  flex: 1;
+  margin: 0 10px;
+}
+
+.flight-times {
+  margin-bottom: 10px;
+}
+
+.flight-times p {
+  margin: 5px 0;
+}
+
+.flight-times p strong {
+  color: #34495e;
+}
+
+.flight-info p {
+  margin: 5px 0;
+}
+
+.flight-info p strong {
+  color: #34495e;
+}
+
+@media (max-width: 600px) {
+  .flight-card {
+      padding: 15px;
+      margin: 10px;
+      max-width: 100%;
+  }
+}
