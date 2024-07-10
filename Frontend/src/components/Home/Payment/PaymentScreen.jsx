@@ -2,12 +2,12 @@ import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import Error from "../../Error/Error";
-import { useForm } from "react-hook-form";
 import Loader from "../../Loader/Loader";
+import PaymentMethod from "./PaymentMethod";
+import FareSummary from "./FareSummary";
+import PaymentGateway from "./PaymentGateway";
 
 const PaymentScreen = () => {
-  const [paymentMethod, setPaymentMethod] = useState("PayPal");
-  const { handleSubmit } = useForm();
   const [details, setDetails] = useState([]);
   const [isPaymentProcessing, setIsPaymentProcessing] = useState(false);
   const [timeLeft, setTimeLeft] = useState(120); // 2 minutes countdown
@@ -15,12 +15,8 @@ const PaymentScreen = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
 
-  const handlePaymentChange = (e) => {
-    setPaymentMethod(e.target.value);
-  };
-
   const fetchFlightsDetails = async () => {
-    setLoading(true)
+    setLoading(true);
     try {
       const response = await axios.get(
         `http://localhost:3000/api/flights/${id}`
@@ -64,7 +60,7 @@ const PaymentScreen = () => {
       }
     }
   }, [isPaymentProcessing, timeLeft, navigate, id]);
-  
+
   const onPayment = async (data) => {
     setLoading(true);
     const res = await fetchFlightsDetails();
@@ -91,11 +87,11 @@ const PaymentScreen = () => {
     };
     await lockSeat();
     setIsPaymentProcessing(true);
-    setLoading(false)
+    setLoading(false);
   };
 
   const confirmPayment = async () => {
-    setLoading(true)
+    setLoading(true);
     const seatBooked = async () => {
       try {
         await axios.patch(`http://localhost:3000/api/flights/${id}/seat-book`, {
@@ -114,9 +110,9 @@ const PaymentScreen = () => {
   };
 
   const cancelPayment = async () => {
-    setLoading(true)
+    setLoading(true);
     await unlockSeat();
-    setLoading(false)
+    setLoading(false);
     navigate(`/flight/${id}`);
   };
 
@@ -125,88 +121,26 @@ const PaymentScreen = () => {
     return <Error />;
   }
 
-  if(loading){
-    return <Loader />
+  if (loading) {
+    return <Loader />;
   }
 
   return (
     <div className="container mt-5">
       {!isPaymentProcessing ? (
-        <div
-          className="card shadow-lg p-4"
-          style={{ backgroundColor: "#d6efd8" }}
-        >
-          <h3 className="mb-4 text-center">Choose Payment Method</h3>
-          <form onSubmit={handleSubmit(onPayment)}>
-            <div className="form-check mb-3">
-              <input
-                className="form-check-input"
-                type="radio"
-                name="paymentMethod"
-                id="paypal"
-                value="PayPal"
-                checked={paymentMethod === "PayPal"}
-                onChange={handlePaymentChange}
-              />
-              <label className="form-check-label" htmlFor="paypal">
-                <i className="fab fa-paypal"></i> PayPal
-              </label>
-            </div>
-            <button type="submit" className="btn btn-primary w-100 mt-3">
-              Continue
-            </button>
-          </form>
+        <div className="d-flex flex-column flex-md-row justify-content-between">
+          <PaymentMethod onPayment={onPayment} />
+          <FareSummary price={details.price} />
         </div>
       ) : (
-        <div
-          className="card shadow-lg p-4"
-          style={{ backgroundColor: "#d6efd8" }}
-        >
-          <h3 className="mb-4 text-center">Payment Gateway</h3>
-          <div className="text-center">
-            <p className="text-danger">
-              Time left: {Math.floor(timeLeft / 60)}:
-              {timeLeft % 60 < 10 ? "0" : ""}
-              {timeLeft % 60}
-            </p>
-            <form onSubmit={handleSubmit(confirmPayment)}>
-              <div className="mb-3">
-                <label htmlFor="inputName" className="form-label">
-                  Name
-                </label>
-                <input
-                  type="text"
-                  className="form-control"
-                  id="inputName"
-                  required
-                />
-              </div>
-              <div className="mb-3">
-                <label htmlFor="inputEmail" className="form-label">
-                  Email address
-                </label>
-                <input
-                  type="email"
-                  className="form-control"
-                  id="inputEmail"
-                  required
-                />
-              </div>
-              <div className="d-flex justify-content-between mt-3">
-                <button onClick={cancelPayment} className="btn btn-danger w-50">
-                  Cancel Payment
-                </button>
-                <button type="submit" className="btn btn-success w-50 ms-3">
-                  Confirm Payment
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
+        <PaymentGateway
+          confirmPayment={confirmPayment}
+          cancelPayment={cancelPayment}
+          timeLeft={timeLeft}
+        />
       )}
     </div>
   );
 };
 
 export default PaymentScreen;
-

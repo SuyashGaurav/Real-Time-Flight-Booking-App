@@ -10,14 +10,13 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  border-radius: 5px;
+  border-radius: 15px;
   cursor: pointer;
   clip-path: polygon(0% 0%, 100% 0%, 100% 50%, 90% 55%, 100% 60%, 100% 100%, 0% 100%);
 }
 
 .flight-card:hover {
-  transform: scale(1.05);
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+  transform: scale(1.035);
 }
 
 .flight-card:before {

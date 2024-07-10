@@ -7,12 +7,15 @@ import Bookflight from "./components/Home/Booking/Bookflight";
 import PaymentScreen from "./components/Home/Payment/PaymentScreen";
 import "./App.css";
 import Navbar from "./components/Navbar";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const App = () => {
   const location = useLocation();
   const showNavBar = !location.pathname.match(/^\/flight\/[^\/]+\/[^\/]+\/payment$/);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  useEffect(()=>{
+    handleLogIn();
+  }, [])
   const handleLogIn = () => {
     const token = localStorage.getItem("token");
     if (token) {

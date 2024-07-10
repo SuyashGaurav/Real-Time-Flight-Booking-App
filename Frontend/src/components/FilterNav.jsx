@@ -39,7 +39,7 @@ const FilterNav = ({ handleFrom, handleTo, handleDate }) => {
         backgroundColor: "#95D2B3",
         padding: "10px 0",
         height: "auto",
-        borderRadius: "15px",
+        borderRadius: "5px",
         position: "sticky",
         top: 73,
         zIndex: 1000
