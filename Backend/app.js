@@ -10,8 +10,8 @@ dotenv.config();
 import { authenticateToken } from "./middleware.js";
 
 const JWT_SECRET = process.env.JWT_SECRET;
-const clientId = "767176881409-9md2vuj4k06oaqm9g6g1vtptrvi5pfpu.apps.googleusercontent.com";
-const clientSecret = "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";
+const clientId = process.env.CLIENT_ID;
+const clientSecret = process.env.CLIENT_SECRET;
 
 // const MONGO_URL = "mongodb://127.0.0.1:27017/Real-Time-Flight-Booking-App";
 const MONGO_URL = process.env.MONGO_URL;
