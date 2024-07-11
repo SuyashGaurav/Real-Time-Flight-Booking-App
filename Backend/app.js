@@ -294,6 +294,10 @@ app.get("/api/user/:email", async (req, res) => {
   })
 })
 
+app.get('/', (req, res) => {
+  res.send('Welcome to flight booking backend!!')
+})
+
 app.listen(port, () => {
   console.log(`app is listening at port ${port}`);
 });
