@@ -10,7 +10,7 @@ import PaymentGateway from "./PaymentGateway";
 const PaymentScreen = () => {
   const [details, setDetails] = useState([]);
   const [isPaymentProcessing, setIsPaymentProcessing] = useState(false);
-  const [timeLeft, setTimeLeft] = useState(120); // 2 minutes countdown
+  const [timeLeft, setTimeLeft] = useState(180); // 2 minutes countdown
   let { id, seat } = useParams();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
