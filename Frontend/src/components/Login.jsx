@@ -13,12 +13,12 @@ const Login = ({ handleLogIn }) => {
   } = useForm();
   const navigate = useNavigate();
   const loginwithgoogle = async()=>{
-    window.open("http://localhost:3000/auth/google/callback","_self")
+    window.open("https://flight-booking-backend-ten.vercel.app/auth/google/callback","_self")
   }
   const onLogin = async (data) => {
     // console.log(data)
     try {
-      const response = await axios.post("http://localhost:3000/login", data);
+      const response = await axios.post("https://flight-booking-backend-ten.vercel.app/login", data);
       if (response.data === "notFound") {
         alert("User Does Not Exists!!\nRegister First.");
         navigate("/signup");

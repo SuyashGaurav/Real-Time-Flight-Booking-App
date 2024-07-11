@@ -31,7 +31,7 @@ main()
 
 //Cors options
 const corsOptions = {
-  origin: "http://localhost:5173",
+  origin: "https://real-time-flight-booking-app.vercel.app",
   credentials: true,
 };
 
@@ -58,7 +58,7 @@ passport.use(
     {
       clientID: clientId,
       clientSecret: clientSecret,
-      callbackURL: "http://localhost:3000/auth/google/callback",
+      callbackURL: "https://flight-booking-backend-ten.vercel.app/auth/google/callback",
       scope: ["profile", "email"],
     },
     async (accessToken, refreshToken, profile, done) => {
@@ -102,8 +102,8 @@ app.get(
 app.get(
   "/auth/google/callback",
   passport.authenticate("google", {
-    failureRedirect: "http://localhost:5173/login",
-    successRedirect: "http://localhost:5173/googleLogin",
+    failureRedirect: "https://real-time-flight-booking-app.vercel.app/login",
+    successRedirect: "https://real-time-flight-booking-app.vercel.app/googleLogin",
   })
 );
 

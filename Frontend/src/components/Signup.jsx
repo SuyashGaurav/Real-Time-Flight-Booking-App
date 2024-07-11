@@ -13,11 +13,11 @@ const Signup = ({handleLogIn}) => {
   } = useForm();
   const navigate = useNavigate();
   const loginwithgoogle = async()=>{
-    window.open("http://localhost:3000/auth/google/callback","_self")
+    window.open("https://flight-booking-backend-ten.vercel.app/auth/google/callback","_self")
   }
   const onRegister = async (data) => {
     try {
-      const response = await axios.post("http://localhost:3000/register", data);
+      const response = await axios.post("https://flight-booking-backend-ten.vercel.app/register", data);
       if (response.data.status === "success") {
         localStorage.setItem('token', response.data.token);
         handleLogIn()

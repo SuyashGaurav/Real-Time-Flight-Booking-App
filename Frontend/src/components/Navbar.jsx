@@ -12,7 +12,7 @@ const Navbar = ({ isLoggedIn, handleLogOut }) => {
       if (isLoggedIn) {
         try {
           const token = localStorage.getItem("token");
-          const response = await axios.get(`http://localhost:3000/api/user/${token}`);
+          const response = await axios.get(`https://flight-booking-backend-ten.vercel.app/api/user/${token}`);
           setUser(response.data);
         } catch (error) {
           console.error("Error fetching user:", error);

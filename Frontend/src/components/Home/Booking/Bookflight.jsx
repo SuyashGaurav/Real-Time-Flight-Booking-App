@@ -17,7 +17,7 @@ const Bookflight = () => {
     const fetchFlightsDetails = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:3000/api/flights/${id}`
+          `https://flight-booking-backend-ten.vercel.app/api/flights/${id}`
         );
         // console.log(response.data);
         setDetails(response.data);

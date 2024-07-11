@@ -30,7 +30,7 @@ const App = () => {
   useEffect(()=>{
     if(location.pathname === "/googleLogin"){
       const handleGoogleLogin = async () => {
-        const response = await axios.get("http://localhost:3000/loginGoogle", {
+        const response = await axios.get("https://flight-booking-backend-ten.vercel.app/loginGoogle", {
           withCredentials: true,
         });
         if (response.data.status === "success") {
@@ -46,7 +46,7 @@ const App = () => {
   const handleLogOut = async() => {
     localStorage.removeItem("token");
     setIsLoggedIn(false);
-    const response = await axios.get("http://localhost:3000/logoutGoogle")
+    const response = await axios.get("https://flight-booking-backend-ten.vercel.app/logoutGoogle")
     // console.log(response)
   }
   const ProtectedRoute = ({ isLoggedIn, redirectPath = "/login", children }) => {
