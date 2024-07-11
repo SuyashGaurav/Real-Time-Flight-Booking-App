@@ -5,8 +5,6 @@ import Error from "../../Error/Error";
 import Loader from "../../Loader/Loader";
 import PaymentMethod from "./PaymentMethod";
 import FareSummary from "./FareSummary";
-import PaymentGateway from "./PaymentGateway";
-import Razorpay from "razorpay";
 
 const PaymentScreen = () => {
   const [details, setDetails] = useState([]);

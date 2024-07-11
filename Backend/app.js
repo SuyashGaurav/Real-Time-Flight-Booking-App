@@ -4,7 +4,6 @@ import User from "./models/users.js";
 import Flight from "./models/flights.js";
 import mongoose from "mongoose";
 import cors from "cors";
-import jwt from "jsonwebtoken";
 import passport from "passport";
 import session from "express-session";
 import Razorpay from "razorpay";
@@ -14,9 +13,8 @@ dotenv.config();
 
 const app = express();
 let port = 3000;
-import { authenticateToken } from "./middleware.js";
+// import { authenticateToken } from "./middleware.js";
 
-const JWT_SECRET = process.env.JWT_SECRET;
 const clientId = process.env.CLIENT_ID;
 const clientSecret = process.env.CLIENT_SECRET;
 
@@ -72,6 +70,7 @@ passport.use(
             name: profile.displayName,
             email: profile.emails[0].value,
             password: profile.id,
+            image: profile.photos[0].value
           });
           await newUser.save();
           return done(null, newUser);
@@ -104,21 +103,38 @@ app.get(
   "/auth/google/callback",
   passport.authenticate("google", {
     failureRedirect: "http://localhost:5173/login",
-    successRedirect: "http://localhost:5173/",
+    successRedirect: "http://localhost:5173/googleLogin",
   })
 );
 
 app.get("/loginGoogle", (req, res) => {
   // console.log(req.user)
   if (req.user) {
-    const token = jwt.sign({ userId: req.user._id }, JWT_SECRET, {
-      expiresIn: "1h",
-    });
+    const token = req.user.email;
+    // console.log(token)
     return res.send({ status: "success", token });
   } else {
     return res.send({ status: "error", message: "User not authenticated" });
   }
 });
+
+app.get("/logoutGoogle", (req, res) => {
+  req.logout((err) => {
+    if (err) {
+      return res.status(500).send("Error logging out");
+    }
+    // req.session = null; // Clear the session manually
+    // res.send("Logged out");
+    req.session.destroy((err) => {
+      if (err) {
+        return res.status(500).send("Error logging out");
+      }
+      res.clearCookie('connect.sid'); // Clear session cookie if used
+      res.send("Logged out");
+    });
+  });
+});
+
 
 // Payment Gateway Razorpay
 app.post("/api/payment", async (req, res) => {
@@ -159,9 +175,7 @@ app.post("/login", (req, res) => {
       }
       if (user.password === inputPassword) {
         console.log("Login Successful");
-        const token = jwt.sign({ userId: user._id }, JWT_SECRET, {
-          expiresIn: "1h",
-        });
+        const token = inputEmail;
         return res.json({ status: "success", token });
       } else {
         console.log("Invalid Credentials: Incorrect password");
@@ -188,9 +202,7 @@ app.post("/register", (req, res) => {
         .save()
         .then(() => {
           console.log("Registration successful");
-          const token = jwt.sign({ userId: email }, JWT_SECRET, {
-            expiresIn: "1h",
-          });
+          const token = inputEmail;
           return res.json({ status: "success", token });
         })
         .catch((err) => {
@@ -273,6 +285,14 @@ app.patch("/api/flights/:id/seat-book", async (req, res) => {
     res.status(500).send(err);
   }
 });
+
+app.get("/api/user/:email", async (req, res) => {
+  const { email: inputEmail }  = req.params;
+  User.findOne({ email: inputEmail }).then((user) => {
+    if(user) res.json(user);
+    else res.send("Not Found")
+  })
+})
 
 app.listen(port, () => {
   console.log(`app is listening at port ${port}`);

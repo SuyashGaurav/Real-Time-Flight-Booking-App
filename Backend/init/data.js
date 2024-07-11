@@ -391,7 +391,7 @@ let sampleUsers = [
     {
         name : "Satyam",
         email : "satyamgaurav6040@gmail.com",
-        password : "1234"
+        password : "1234",
     }
 ]
 

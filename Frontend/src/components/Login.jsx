@@ -25,6 +25,7 @@ const Login = ({ handleLogIn }) => {
       } else if (response.data.status === "success") {
         localStorage.setItem("token", response.data.token);
         handleLogIn();
+        // fetch user detials
         navigate("/");
       } else if (response.data === "invalidPassword") {
         alert("Incorrect Password!!");
