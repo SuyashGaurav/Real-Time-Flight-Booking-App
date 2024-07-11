@@ -12,6 +12,9 @@ const Login = ({ handleLogIn }) => {
     reset,
   } = useForm();
   const navigate = useNavigate();
+  const loginwithgoogle = async()=>{
+    window.open("http://localhost:3000/auth/google/callback","_self")
+  }
   const onLogin = async (data) => {
     // console.log(data)
     try {
@@ -80,7 +83,7 @@ const Login = ({ handleLogIn }) => {
           Submit
         </button>
       </form>
-      <button className="login-with-google-btn">
+      <button className="login-with-google-btn" onClick={loginwithgoogle}>
         Sign In With Google
       </button>
       <div className="mt-5">

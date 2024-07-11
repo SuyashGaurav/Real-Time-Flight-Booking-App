@@ -2,16 +2,9 @@ import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { useEffect } from "react";
+import "../App.css"
 
 const Signup = ({handleLogIn}) => {
-  // useEffect(() => {
-  //   const token = localStorage.getItem("token");
-  //   if (token) {
-  //     setIsLoggedIn(false);
-  //     localStorage.removeItem("token")
-  //   }
-  // }, []);
   const {
     register,
     handleSubmit,
@@ -19,6 +12,9 @@ const Signup = ({handleLogIn}) => {
     reset,
   } = useForm();
   const navigate = useNavigate();
+  const loginwithgoogle = async()=>{
+    window.open("http://localhost:3000/auth/google/callback","_self")
+  }
   const onRegister = async (data) => {
     try {
       const response = await axios.post("http://localhost:3000/register", data);
@@ -101,6 +97,9 @@ const Signup = ({handleLogIn}) => {
           Submit
         </button>
       </form>
+      <button className="login-with-google-btn" onClick={loginwithgoogle}>
+        Sign In With Google
+      </button>
       <div className="mt-5">
         <Link to="/login">Already have an account?</Link>
       </div>

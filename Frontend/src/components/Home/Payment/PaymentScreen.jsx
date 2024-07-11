@@ -6,6 +6,7 @@ import Loader from "../../Loader/Loader";
 import PaymentMethod from "./PaymentMethod";
 import FareSummary from "./FareSummary";
 import PaymentGateway from "./PaymentGateway";
+import Razorpay from "razorpay";
 
 const PaymentScreen = () => {
   const [details, setDetails] = useState([]);
@@ -88,6 +89,51 @@ const PaymentScreen = () => {
     await lockSeat();
     setIsPaymentProcessing(true);
     setLoading(false);
+
+    // Razorpay
+    try {
+      let amount = res.price + 150 + 300 + 300;
+      let paymentDetails = await axios.post(
+        "http://localhost:3000/api/payment",
+        { amount }
+      );
+      // console.log(paymentDetails);
+      if (paymentDetails.data.success) {
+        let options = {
+          key: paymentDetails.data.key_id,
+          amount: amount * 100, // Razorpay requires the amount in paise
+          currency: "INR",
+          name: `${res.from} - ${res.to}`,
+          description: "Happy Journey",
+          image: "/flight.png",
+          order_id: paymentDetails.data.order_id,
+          handler: function (response) {
+            // console.log(response);
+            confirmPayment();
+          },
+          modal: {
+            ondismiss: function () {
+              //window closed by user
+              cancelPayment();
+            }
+          },
+          theme: {
+            color: "#2300a3",
+          },
+        };
+        let razorpay = new window.Razorpay(options);
+        razorpay.on("payment.failed", function (response) {
+          console.log(response.error);
+          cancelPayment();
+        });
+        razorpay.open();
+      } else {
+        alert(paymentDetails.data.msg);
+      }
+    } catch (error) {
+      console.error("Error with payment gateway:", error);
+      navigate("/error");
+    }
   };
 
   const confirmPayment = async () => {
@@ -127,18 +173,19 @@ const PaymentScreen = () => {
 
   return (
     <div className="container mt-5">
-      {!isPaymentProcessing ? (
-        <div className="d-flex flex-column flex-md-row justify-content-between">
-          <PaymentMethod onPayment={onPayment} />
-          <FareSummary price={details.price} />
-        </div>
-      ) : (
-        <PaymentGateway
+      {/* {!isPaymentProcessing ? ( */}
+      <div className="d-flex flex-column flex-md-row justify-content-between">
+        <PaymentMethod onPayment={onPayment} />
+        <FareSummary price={details.price} />
+      </div>
+      <h6 className="text-success mt-5">*Test Payment Gateway powered by Razorpay. You can enter random details.</h6>
+      {/* ) : ( */}
+      {/* <PaymentGateway
           confirmPayment={confirmPayment}
           cancelPayment={cancelPayment}
           timeLeft={timeLeft}
-        />
-      )}
+        /> */}
+      {/* )} */}
     </div>
   );
 };

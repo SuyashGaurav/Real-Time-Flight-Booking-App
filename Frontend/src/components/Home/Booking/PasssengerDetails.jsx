@@ -44,26 +44,6 @@ const PassengerDetails = ({details, id}) => {
             {errors.name && <p className="text-danger">{errors.name.message}</p>}
           </div>
           <div className="mb-3">
-            <label htmlFor="inputEmail" className="form-label">
-              Email
-            </label>
-            <input
-              {...register("email", {
-                required: "Email is required",
-                minLength: {
-                  value: 11,
-                  message: "Not a valid email",
-                },
-              })}
-              type="email"
-              className="form-control"
-              id="inputEmail"
-            />
-            {errors.email && (
-              <p className="text-danger">{errors.email.message}</p>
-            )}
-          </div>
-          <div className="mb-3">
             <label htmlFor="inputAge" className="form-label">
               Age
             </label>

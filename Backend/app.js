@@ -1,12 +1,19 @@
 import express from "express";
+import bodyParser from "body-parser";
 import User from "./models/users.js";
 import Flight from "./models/flights.js";
 import mongoose from "mongoose";
 import cors from "cors";
 import jwt from "jsonwebtoken";
-import dotenv from 'dotenv';
+import passport from "passport";
+import session from "express-session";
+import Razorpay from "razorpay";
+import { Strategy as GoogleStrategy } from "passport-google-oauth2";
+import dotenv from "dotenv";
 dotenv.config();
 
+const app = express();
+let port = 3000;
 import { authenticateToken } from "./middleware.js";
 
 const JWT_SECRET = process.env.JWT_SECRET;
@@ -27,23 +34,123 @@ main()
 //Cors options
 const corsOptions = {
   origin: "http://localhost:5173",
+  credentials: true,
 };
 
-const app = express();
+app.use(bodyParser.json())
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cors(corsOptions));
-let port = 3000;
 
-app.get("/", (req, res) => {
-  res.send("Flights...");
+// Setup session
+app.use(
+  session({
+    secret: process.env.SESSION_KEY,
+    resave: false,
+    saveUninitialized: true,
+  })
+);
+
+// // setup passport
+app.use(passport.initialize());
+app.use(passport.session());
+
+passport.use(
+  new GoogleStrategy(
+    {
+      clientID: clientId,
+      clientSecret: clientSecret,
+      callbackURL: "http://localhost:3000/auth/google/callback",
+      scope: ["profile", "email"],
+    },
+    async (accessToken, refreshToken, profile, done) => {
+      // console.log(profile)
+      try {
+        const user = await User.findOne({ email: profile.emails[0].value });
+        if (!user) {
+          const newUser = new User({
+            name: profile.displayName,
+            email: profile.emails[0].value,
+            password: profile.id,
+          });
+          await newUser.save();
+          return done(null, newUser);
+        } else {
+          return done(null, user);
+        }
+      } catch (error) {
+        console.log("Profile not fetched", error);
+        return done(error, null);
+      }
+    }
+  )
+);
+
+passport.serializeUser((user, done) => {
+  done(null, user);
+});
+
+passport.deserializeUser((user, done) => {
+  done(null, user);
+});
+
+// initial google oauth login
+app.get(
+  "/auth/google",
+  passport.authenticate("google", { scope: ["profile", "email"] })
+);
+
+app.get(
+  "/auth/google/callback",
+  passport.authenticate("google", {
+    failureRedirect: "http://localhost:5173/login",
+    successRedirect: "http://localhost:5173/",
+  })
+);
+
+app.get("/loginGoogle", (req, res) => {
+  // console.log(req.user)
+  if (req.user) {
+    const token = jwt.sign({ userId: req.user._id }, JWT_SECRET, {
+      expiresIn: "1h",
+    });
+    return res.send({ status: "success", token });
+  } else {
+    return res.send({ status: "error", message: "User not authenticated" });
+  }
+});
+
+// Payment Gateway Razorpay
+app.post("/api/payment", async (req, res) => {
+  const razorpay = new Razorpay({
+    key_id: process.env.RAZORPAY_KEY_ID,
+    key_secret: process.env.RAZORPAY_KEY_SECRET,
+  });
+  const options = {
+    amount: req.body.amount * 100, // Razorpay requires the amount in paise
+    currency: "INR",
+    receipt: "Happy_Journey_" + Math.random().toString(36).substr(2, 9),
+  };
+  try {
+    const order = await razorpay.orders.create(options);
+    res.status(200).send({
+      success: true,
+      msg: "Order Created",
+      order_id: order.id,
+      amount: req.body.amount,
+      key_id: process.env.RAZORPAY_KEY_ID,
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(400).send("Failed to create order");
+  }
 });
 
 // Routing
 app.post("/login", (req, res) => {
+  console.log(req.user);
   let { email: inputEmail, password: inputPassword } = req.body;
   // console.log(inputEmail, inputPassword);
-  // check frontend
   User.findOne({ email: inputEmail })
     .then((user) => {
       if (!user) {

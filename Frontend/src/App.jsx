@@ -8,6 +8,7 @@ import PaymentScreen from "./components/Home/Payment/PaymentScreen";
 import "./App.css";
 import Navbar from "./components/Navbar";
 import { useEffect, useState } from "react";
+import axios from "axios";
 
 const App = () => {
   const location = useLocation();
@@ -22,6 +23,18 @@ const App = () => {
       setIsLoggedIn(true);
     }
   }
+  useEffect(() => {
+    const handleGoogleLogin = async () => {
+      const response = await axios.get("http://localhost:3000/loginGoogle", {
+        withCredentials: true,
+      });
+      if (response.data.status === "success") {
+        localStorage.setItem("token", response.data.token);
+        handleLogIn();
+      } 
+    }
+    handleGoogleLogin();
+  }, []);
   const handleLogOut = () => {
     localStorage.removeItem("token");
     setIsLoggedIn(false);
