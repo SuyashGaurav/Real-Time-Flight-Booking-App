@@ -60,6 +60,7 @@ passport.use(
       clientSecret: clientSecret,
       callbackURL: "/auth/google/callback",
       scope: ["profile", "email"],
+      proxy: true
     },
     async (accessToken, refreshToken, profile, done) => {
       // console.log(profile)
