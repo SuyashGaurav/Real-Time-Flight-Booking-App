@@ -33,6 +33,7 @@ const App = () => {
         const response = await axios.get("https://real-time-flight-booking-app-n9v1.vercel.app/loginGoogle", {
           withCredentials: true,
         });
+        console.log(response)
         if (response.data.status === "success") {
           localStorage.setItem("token", response.data.token);
           handleLogIn();

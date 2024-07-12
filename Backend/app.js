@@ -103,8 +103,10 @@ app.get(
   "/auth/google/callback",
   passport.authenticate("google", {
     failureRedirect: "https://real-time-flight-booking-app.vercel.app/login",
-    successRedirect: "https://real-time-flight-booking-app.vercel.app/googleLogin",
-  })
+    // successRedirect: "https://real-time-flight-booking-app.vercel.app/googleLogin",
+  }), (req, res) => {
+    res.redirect("https://real-time-flight-booking-app.vercel.app/googleLogin")
+  }
 );
 
 app.get("/loginGoogle", (req, res) => {
