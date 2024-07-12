@@ -39,9 +39,7 @@ RAZORPAY_KEY_SECRET=your-razorpay-key-secret
 - The frontend is built using React. It provides the user interface for logging in, viewing available flights, booking seats, and processing payments.
 
 ![image](https://github.com/user-attachments/assets/a1f5961d-ba83-4fd3-b278-236c1ff16037)
-<hr />
 ![image](https://github.com/user-attachments/assets/5eff8d1c-6913-48cf-9e11-65a2e9fac405)
-<hr />
 ![image](https://github.com/user-attachments/assets/c54962c0-ff14-4690-b04f-f0b414f8735e)
 
 
