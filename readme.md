@@ -8,12 +8,12 @@
 </div>
 <ul>
 <li><b>Google OAuth2 Sign-In:</b> Secure login using Google accounts.</li>
-<li>**Payment Integration:** Seamless payment processing with Razorpay.</li>
-<li>**Mutual Exclusion Mechanism using Locks:** Ensures that a seat can only be booked by one user at a time.
-**Explaination**: The mutual exclusion mechanism ensures that if two or more users try to book the same seat, only one will be allowed to do so. If the first user's payment is successful, the seat is marked as booked and unavailable for others. If the payment fails or the user does not complete the booking, the lock is released, allowing other users to book the seat.
+<li><b>Payment Integration:</b> Seamless payment processing with Razorpay.</li>
+<li><b>Mutual Exclusion Mechanism using Locks:</b> Ensures that a seat can only be booked by one user at a time.
+<b>Explaination</b>: The mutual exclusion mechanism ensures that if two or more users try to book the same seat, only one will be allowed to do so. If the first user's payment is successful, the seat is marked as booked and unavailable for others. If the payment fails or the user does not complete the booking, the lock is released, allowing other users to book the seat.
 </li>
-<li>**Real-Time Updates:** Seats are updated in real-time to reflect availability.</li>
-<li>**Flight Filtering:** Users can filter flights based on origin, destination, and date. </li>
+<li><b>Real-Time Updates:</b> Seats are updated in real-time to reflect availability.</li>
+<li><b>Flight Filtering:</b> Users can filter flights based on origin, destination, and date. </li>
 </ul>
 
 ## Deployment
