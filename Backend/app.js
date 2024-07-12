@@ -58,7 +58,7 @@ passport.use(
     {
       clientID: clientId,
       clientSecret: clientSecret,
-      callbackURL: "https://flight-booking-backend-ten.vercel.app/auth/google/callback",
+      callbackURL: "/auth/google/callback",
       scope: ["profile", "email"],
     },
     async (accessToken, refreshToken, profile, done) => {
