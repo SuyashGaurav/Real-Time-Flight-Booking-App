@@ -7,7 +7,7 @@
   <h2><img src="https://github.com/SuyashGaurav/WanderLust-Airbnb-Clone/assets/102952185/2a0317ea-4b6a-42d8-98a4-c76b855bfabf" width="35" height="35"> Features</h2>
 </div>
 <ul>
-<li>**Google OAuth2 Sign-In:** Secure login using Google accounts.</li>
+<li><b>Google OAuth2 Sign-In:</b> Secure login using Google accounts.</li>
 <li>**Payment Integration:** Seamless payment processing with Razorpay.</li>
 <li>**Mutual Exclusion Mechanism using Locks:** Ensures that a seat can only be booked by one user at a time.
 **Explaination**: The mutual exclusion mechanism ensures that if two or more users try to book the same seat, only one will be allowed to do so. If the first user's payment is successful, the seat is marked as booked and unavailable for others. If the payment fails or the user does not complete the booking, the lock is released, allowing other users to book the seat.
