@@ -105,7 +105,7 @@ app.get(
     failureRedirect: "https://real-time-flight-booking-app.vercel.app/login",
     // successRedirect: "https://real-time-flight-booking-app.vercel.app/googleLogin",
   }), (req, res) => {
-    res.redirect("https://real-time-flight-booking-app.vercel.app/googleLogin")
+    res.redirect(`https://real-time-flight-booking-app.vercel.app/googleLogin?email=${req.user.email}`)
   }
 );
 
@@ -125,8 +125,6 @@ app.get("/logoutGoogle", (req, res) => {
     if (err) {
       return res.status(500).send("Error logging out");
     }
-    // req.session = null; // Clear the session manually
-    // res.send("Logged out");
     req.session.destroy((err) => {
       if (err) {
         return res.status(500).send("Error logging out");

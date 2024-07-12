@@ -29,17 +29,25 @@ const App = () => {
 
   useEffect(()=>{
     if(location.pathname === "/googleLogin"){
-      const handleGoogleLogin = async () => {
-        const response = await axios.get("https://real-time-flight-booking-app-n9v1.vercel.app/loginGoogle", {
-          withCredentials: true,
-        });
-        console.log(response)
-        if (response.data.status === "success") {
-          localStorage.setItem("token", response.data.token);
-          handleLogIn();
-        } 
+      // const handleGoogleLogin = async () => {
+      //   const response = await axios.get("https://real-time-flight-booking-app-n9v1.vercel.app/loginGoogle", {
+      //     withCredentials: true,
+      //   });
+      //   console.log(response)
+      //   if (response.data.status === "success") {
+      //     localStorage.setItem("token", response.data.token);
+      //     handleLogIn();
+      //   } 
+      // }
+      // handleGoogleLogin();
+      const query = new URLSearchParams(location.search);
+      const email = query.get('email');
+      if(email){
+        localStorage.setItem("token", email);
+        handleLogIn();
+      } else{
+        console.log("email not found")
       }
-      handleGoogleLogin();
       navigate("/");
     }
   }, [])
