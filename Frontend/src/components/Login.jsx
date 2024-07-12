@@ -13,7 +13,7 @@ const Login = ({ handleLogIn }) => {
   } = useForm();
   const navigate = useNavigate();
   const loginwithgoogle = async()=>{
-    window.open("https://flight-booking-backend-ten.vercel.app/auth/google/callback","_self")
+    window.open("https://real-time-flight-booking-app-n9v1.vercel.app/auth/google/callback","_self")
   }
   const onLogin = async (data) => {
     // console.log(data)
