@@ -18,7 +18,7 @@ const PaymentScreen = () => {
     setLoading(true);
     try {
       const response = await axios.get(
-        `https://flight-booking-backend-ten.vercel.app/api/flights/${id}`
+        `https://real-time-flight-booking-app-n9v1.vercel.app/api/flights/${id}`
       );
       setDetails(response.data);
       return response.data;
@@ -32,7 +32,7 @@ const PaymentScreen = () => {
   };
   const unlockSeat = async () => {
     try {
-      await axios.patch(`https://flight-booking-backend-ten.vercel.app/api/flights/${id}/unlock-seat`, {
+      await axios.patch(`https://real-time-flight-booking-app-n9v1.vercel.app/api/flights/${id}/unlock-seat`, {
         seat,
       });
     } catch (error) {
@@ -76,7 +76,7 @@ const PaymentScreen = () => {
     }
     const lockSeat = async () => {
       try {
-        await axios.patch(`https://flight-booking-backend-ten.vercel.app/api/flights/${id}/lock-seat`, {
+        await axios.patch(`https://real-time-flight-booking-app-n9v1.vercel.app/api/flights/${id}/lock-seat`, {
           seat,
         });
       } catch (error) {
@@ -92,7 +92,7 @@ const PaymentScreen = () => {
     try {
       let amount = res.price + 150 + 300 + 300;
       let paymentDetails = await axios.post(
-        "https://flight-booking-backend-ten.vercel.app/api/payment",
+        "https://real-time-flight-booking-app-n9v1.vercel.app/api/payment",
         { amount }
       );
       // console.log(paymentDetails);
@@ -138,7 +138,7 @@ const PaymentScreen = () => {
     setLoading(true);
     const seatBooked = async () => {
       try {
-        await axios.patch(`https://flight-booking-backend-ten.vercel.app/api/flights/${id}/seat-book`, {
+        await axios.patch(`https://real-time-flight-booking-app-n9v1.vercel.app/api/flights/${id}/seat-book`, {
           seat,
         });
       } catch (error) {

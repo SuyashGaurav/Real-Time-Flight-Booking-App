@@ -17,7 +17,7 @@ const Signup = ({handleLogIn}) => {
   }
   const onRegister = async (data) => {
     try {
-      const response = await axios.post("https://flight-booking-backend-ten.vercel.app/register", data);
+      const response = await axios.post("https://real-time-flight-booking-app-n9v1.vercel.app/register", data);
       if (response.data.status === "success") {
         localStorage.setItem('token', response.data.token);
         handleLogIn()

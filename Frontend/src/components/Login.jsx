@@ -18,7 +18,7 @@ const Login = ({ handleLogIn }) => {
   const onLogin = async (data) => {
     // console.log(data)
     try {
-      const response = await axios.post("https://flight-booking-backend-ten.vercel.app/login", data);
+      const response = await axios.post("https://real-time-flight-booking-app-n9v1.vercel.app/login", data);
       if (response.data === "notFound") {
         alert("User Does Not Exists!!\nRegister First.");
         navigate("/signup");

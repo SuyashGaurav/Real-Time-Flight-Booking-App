@@ -14,7 +14,7 @@ const Profile = ({ isLoggedIn }) => {
       const token = localStorage.getItem("token");
       if (token) {
         try {
-          const response = await axios.get(`https://flight-booking-backend-ten.vercel.app/api/user/${token}`);
+          const response = await axios.get(`https://real-time-flight-booking-app-n9v1.vercel.app/api/user/${token}`);
           setUser(response.data); 
           setLoading(false); 
         } catch (error) {

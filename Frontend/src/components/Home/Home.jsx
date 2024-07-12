@@ -15,7 +15,7 @@ const Home = () => {
     setLoading(true);
     const fetchFlights = async () => {
       try {
-        const response = await axios.get("https://flight-booking-backend-ten.vercel.app/api/flights");
+        const response = await axios.get("https://real-time-flight-booking-app-n9v1.vercel.app/api/flights");
         // console.log(response.data)
         const filteredFlights = response.data.filter((flight) => {
           const flightDate = new Date(flight.date).toISOString().split("T")[0]; // Standardize to YYYY-MM-DD format
